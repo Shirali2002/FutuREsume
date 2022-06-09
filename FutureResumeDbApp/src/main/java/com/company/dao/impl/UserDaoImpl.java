@@ -1,6 +1,6 @@
 package com.company.dao.impl;
 
-import com.company.bean.Nationality;
+import com.company.bean.Country;
 import com.company.bean.User;
 import com.company.dao.inter.AbstractDao;
 import com.company.dao.inter.UserDaoInter;
@@ -8,6 +8,17 @@ import com.company.dao.inter.UserDaoInter;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+/*
+select
+u.*,
+n.`nationality`,
+c.`name` as birthplace
+from `user` u
+LEFT JOIN country n on u.nationality_id = n.id
+LEFT JOIN country c on u.birthplace_id = c.id
+*/
+
 
 public class UserDaoImpl extends AbstractDao implements UserDaoInter {
     private User getUser(ResultSet rs) throws Exception{
@@ -18,12 +29,12 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
         String email = rs.getString("email");
         int nationalityId = rs.getInt("nationality_id");
         int birthPlaceId = rs.getInt("birthplace_id");
-        String nationalityStr = rs.getString("nationality");
+        String nationalityStr = rs.getString("country");
         String birthPlaceStr = rs.getString("birthplace");
         Date birthDate = rs.getDate("birthdate");
 
-        Nationality nationality = new Nationality(nationalityId, nationalityStr, null);
-        Nationality birthPlace = new Nationality(birthPlaceId, birthPlaceStr, null);
+        Country nationality = new Country(nationalityId, null, nationalityStr);
+        Country birthPlace = new Country(birthPlaceId, birthPlaceStr, null);
 
 
         return new User(id, name, surname, phone, email, birthDate, nationality, birthPlace);
@@ -36,11 +47,11 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
             Statement stmt = c.createStatement();
             stmt.execute("select " +
                     "u.*, " +
-                    "n.`name` as nationality, " +
-                    "c.`country_name` as birthplace " +
+                    "n.`nationality`, " +
+                    "c.`name` as birthplace " +
                     "from `user` u " +
-                    "LEFT JOIN nationality n on u.nationality_id = n.id " +
-                    "LEFT JOIN nationality c on u.birthplace_id = c.id");
+                    "LEFT JOIN country n on u.nationality_id = n.id " +
+                    "LEFT JOIN country c on u.birthplace_id = c.id");
             ResultSet rs = stmt.getResultSet();
 
             while (rs.next()){
@@ -58,11 +69,11 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
         try (Connection c = connection()){
             PreparedStatement stmt = c.prepareStatement("select " +
                     "u.*, " +
-                    "n.`name` as nationality, " +
-                    "c.`country_name` as birthplace " +
+                    "n.`nationality`, " +
+                    "c.`name` as birthplace " +
                     "from `user` u " +
-                    "LEFT JOIN nationality n on u.nationality_id = n.id " +
-                    "LEFT JOIN nationality c on u.birthplace_id = c.id where id = ?");
+                    "LEFT JOIN country n on u.nationality_id = n.id " +
+                    "LEFT JOIN country c on u.birthplace_id = c.id where id = ?");
             stmt.setInt(1, id);
             stmt.execute();
             ResultSet rs = stmt.getResultSet();
