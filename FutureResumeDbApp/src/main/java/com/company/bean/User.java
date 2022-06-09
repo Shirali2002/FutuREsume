@@ -1,21 +1,31 @@
 package com.company.bean;
 
+
+import java.sql.Date;
+
 public class User {
     private int id;
     private String name;
     private String surname;
     private String phone;
     private String email;
+    private Date birthDate;
+    private Nationality nationality;
+    private Nationality birthPlace;
+
 
     public User() {
     }
 
-    public User(int id, String name, String surname, String phone, String email) {
+    public User(int id, String name, String surname, String phone, String email, Date birthDate, Nationality nationality, Nationality birthPlace) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.phone = phone;
         this.email = email;
+        this.birthDate = birthDate;
+        this.nationality = nationality;
+        this.birthPlace = birthPlace;
     }
 
     public int getId() {
@@ -58,6 +68,30 @@ public class User {
         this.email = email;
     }
 
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public Nationality getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(Nationality nationality) {
+        this.nationality = nationality;
+    }
+
+    public Nationality getBirthPlace() {
+        return birthPlace;
+    }
+
+    public void setBirthPlace(Nationality birthPlace) {
+        this.birthPlace = birthPlace;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -66,6 +100,9 @@ public class User {
                 ", surname='" + surname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
+                ", birthDate=" + birthDate +
+                ", nationality=" + nationality +
+                ", birthPlace=" + birthPlace +
                 '}';
     }
 }
