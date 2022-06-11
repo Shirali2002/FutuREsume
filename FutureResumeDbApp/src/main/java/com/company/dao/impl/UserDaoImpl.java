@@ -1,7 +1,9 @@
 package com.company.dao.impl;
 
-import com.company.bean.Country;
-import com.company.bean.User;
+import com.company.entity.Country;
+import com.company.entity.Skill;
+import com.company.entity.User;
+import com.company.entity.UserSkill;
 import com.company.dao.inter.AbstractDao;
 import com.company.dao.inter.UserDaoInter;
 
@@ -40,7 +42,7 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
         return new User(id, name, surname, phone, email, birthDate, nationality, birthPlace);
     }
 
-    @Override
+        @Override
     public List<User> getAll() {
         List<User> result = new ArrayList<>();
         try (Connection c = connection()){
@@ -128,4 +130,5 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
             return false;
         }
     }
+
 }

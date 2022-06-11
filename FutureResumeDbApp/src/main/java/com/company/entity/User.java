@@ -1,7 +1,8 @@
-package com.company.bean;
+package com.company.entity;
 
 
 import java.sql.Date;
+import java.util.List;
 
 public class User {
     private int id;
@@ -12,9 +13,14 @@ public class User {
     private Date birthDate;
     private Country nationality;
     private Country birthPlace;
+    private List<UserSkill> skills;
 
 
     public User() {
+    }
+
+    public User(int id) {
+        this.id = id;
     }
 
     public User(int id, String name, String surname, String phone, String email, Date birthDate, Country nationality, Country birthPlace) {
@@ -90,6 +96,14 @@ public class User {
 
     public void setBirthPlace(Country birthPlace) {
         this.birthPlace = birthPlace;
+    }
+
+    public List<UserSkill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<UserSkill> skills) {
+        this.skills = skills;
     }
 
     @Override

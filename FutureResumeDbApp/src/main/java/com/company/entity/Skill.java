@@ -1,17 +1,15 @@
-package com.company.bean;
+package com.company.entity;
 
-public class Country {
+public class Skill {
     private int id;
     private String name;
-    private String nationality;
 
-    public Country() {
+    public Skill() {
     }
 
-    public Country(int id, String name, String nationality) {
+    public Skill(int id, String name) {
         this.id = id;
         this.name = name;
-        this.nationality = nationality;
     }
 
     public int getId() {
@@ -30,20 +28,11 @@ public class Country {
         this.name = name;
     }
 
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
-
     @Override
     public String toString() {
-        return "Country{" +
+        return "Skill{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", nationality='" + nationality + '\'' +
                 '}';
     }
 }
