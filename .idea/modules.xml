@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/FutuREsume.iml" filepath="$PROJECT_DIR$/.idea/FutuREsume.iml" />
-      <module fileurl="file://$PROJECT_DIR$/FutureResumeDbApp/FutureResumeDbApp.iml" filepath="$PROJECT_DIR$/FutureResumeDbApp/FutureResumeDbApp.iml" />
     </modules>
   </component>
 </project>
