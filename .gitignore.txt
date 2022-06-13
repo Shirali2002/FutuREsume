@@ -1,2 +1,5 @@
 /FutureResumeDbApp/target/
 /FutuREsumeDesktopApp/target/
+/.idea/
+/FutureResumeDbApp/.idea/
+/FutuREsumeDesktopApp/.idea/
