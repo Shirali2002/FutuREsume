@@ -1,0 +1,2 @@
+/FutureResumeDbApp/target/
+/FutuREsumeDesktopApp/target/
