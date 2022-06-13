@@ -4,13 +4,17 @@
  */
 package main;
 
+import com.company.dao.inter.CountryDaoInter;
 import com.company.dao.inter.UserDaoInter;
+import com.company.entity.Country;
 import com.company.entity.User;
 import com.company.main.Context;
 
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Shireli
@@ -22,6 +26,8 @@ public class MainUser extends javax.swing.JFrame {
      */
 
     private UserDaoInter userDao = Context.instanceUserDao();
+
+    private CountryDaoInter countryDao = Context.instanceCountryDao();
     User loggedInUser;
 
     public MainUser() {
@@ -32,17 +38,28 @@ public class MainUser extends javax.swing.JFrame {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
+    private void fillWindow(){
+        List<Country> countries = countryDao.getAllCountry();
+        for (Country c: countries) {
+            cbCountry.addItem(c);
+        }
+    }
+
     private void fillUserComponents() {
         txtName.setText(loggedInUser.getName());
         txtSurname.setText(loggedInUser.getSurname());
         txtAreaProfile.setText(loggedInUser.getProfileDesc());
         txtPhone.setText(loggedInUser.getPhone());
+        txtAddress.setText(loggedInUser.getAddress());
 
         Date dt = loggedInUser.getBirthDate();
         String dtStr = sdf.format(dt);
         txtBirthDate.setText(dtStr);
 
         txtEmail.setText(loggedInUser.getEmail());
+        cbCountry.setSelectedItem(loggedInUser.getBirthPlace());
+
+
 
     }
 
@@ -147,7 +164,6 @@ public class MainUser extends javax.swing.JFrame {
         lblNationality.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         lblNationality.setText("Nationality");
 
-        cbCountry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Azerbaijan", "USA" }));
         cbCountry.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbCountryActionPerformed(evt);
@@ -346,17 +362,21 @@ public class MainUser extends javax.swing.JFrame {
             String birthDate = txtBirthDate.getText();
             String email = txtEmail.getText();
             String phone = txtPhone.getText();
+            String address = txtAddress.getText();
+            Country country = (Country) cbCountry.getSelectedItem();
+
 
             long lTime = sdf.parse(birthDate).getTime();
             Date bd = new Date(lTime);
             loggedInUser.setBirthDate(bd);
-
+            loggedInUser.setBirthPlace(country);
 
             loggedInUser.setName(name);
             loggedInUser.setSurname(surname);
             loggedInUser.setProfileDesc(profileDescription);
             loggedInUser.setEmail(email);
             loggedInUser.setPhone(phone);
+            loggedInUser.setAddress(address);
 
             userDao.updateUser(loggedInUser);
         } catch (ParseException e) {
@@ -427,7 +447,7 @@ public class MainUser extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox<String> cbCountry;
+    private javax.swing.JComboBox<Country> cbCountry;
     private javax.swing.JComboBox<String> cbNationality;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
