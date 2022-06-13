@@ -17,8 +17,8 @@ public class Main {
 //        CountryDaoInter countryDao = Context.instanceCountryDao();
 //        System.out.println(countryDao.getAllCountry());
 
-//        SkillDaoInter skillDao = Context.instanceSkillDao();
-//        System.out.println(skillDao.getAllSkills());
+        SkillDaoInter skillDao = Context.instanceSkillDao();
+        System.out.println(skillDao.getAllSkills());
 
 
 //        for (User u: userDao.getAll()) {
