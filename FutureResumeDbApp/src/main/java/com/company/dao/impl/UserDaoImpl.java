@@ -30,6 +30,7 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
         String phone = rs.getString("phone");
         String email = rs.getString("email");
         String profileDesc = rs.getString("profile_description");
+        String address = rs.getString("address");
         int nationalityId = rs.getInt("nationality_id");
         int birthPlaceId = rs.getInt("birthplace_id");
         String nationalityStr = rs.getString("nationality");
@@ -40,7 +41,7 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
         Country birthPlace = new Country(birthPlaceId, birthPlaceStr, null);
 
 
-        return new User(id, name, surname, phone, email, profileDesc, birthDate, nationality, birthPlace);
+        return new User(id, name, surname, phone, email, profileDesc, address, birthDate, nationality, birthPlace);
     }
 
         @Override
@@ -93,14 +94,15 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
     @Override
     public boolean updateUser(User u) {
         try (Connection c = connection()){
-            PreparedStatement stmt = c.prepareStatement("update user set name = ?, surname = ?, phone = ?, email = ?, profile_description=?, birthdate=? where id = ?"); // prevent sql injection
+            PreparedStatement stmt = c.prepareStatement("update user set name = ?, surname = ?, phone = ?, email = ?, profile_description=?, address=?, birthdate=? where id = ?"); // prevent sql injection
             stmt.setString(1, u.getName());
             stmt.setString(2, u.getSurname());
             stmt.setString(3, u.getPhone());
             stmt.setString(4, u.getEmail());
             stmt.setString(5, u.getProfileDesc());
-            stmt.setDate(6, u.getBirthDate());
-            stmt.setInt(7, u.getId());
+            stmt.setString(6, u.getAddress());
+            stmt.setDate(7, u.getBirthDate());
+            stmt.setInt(8, u.getId());
             return stmt.execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,12 +124,13 @@ public class UserDaoImpl extends AbstractDao implements UserDaoInter {
     @Override
     public boolean addUser(User u) {
         try (Connection c = connection()){
-            PreparedStatement stmt = c.prepareStatement("insert into user(name, surname, phone, email, profile_description) values(?, ?, ?, ?, ?)");
+            PreparedStatement stmt = c.prepareStatement("insert into user(name, surname, phone, email, profile_description, address) values(?, ?, ?, ?, ?, ?)");
             stmt.setString(1, u.getName());
             stmt.setString(2, u.getSurname());
             stmt.setString(3, u.getPhone());
             stmt.setString(4, u.getEmail());
             stmt.setString(5, u.getProfileDesc());
+            stmt.setString(6, u.getAddress());
             return stmt.execute();
         } catch (Exception e) {
             e.printStackTrace();

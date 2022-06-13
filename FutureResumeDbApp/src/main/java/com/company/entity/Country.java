@@ -1,5 +1,7 @@
 package com.company.entity;
 
+import java.util.Objects;
+
 public class Country {
     private int id;
     private String name;
@@ -39,11 +41,20 @@ public class Country {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Country country = (Country) o;
+        return id == country.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
     public String toString() {
-        return "Country{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", nationality='" + nationality + '\'' +
-                '}';
+        return name + " (" + nationality + ')';
     }
 }
