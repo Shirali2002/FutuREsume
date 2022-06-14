@@ -31,8 +31,8 @@ public class MainUser extends javax.swing.JFrame {
 
 
     public MainUser() {
-        initComponents();
         Config.loggedInUser = userDao.getById(5);
+        initComponents();
     }
 
 
@@ -247,7 +247,7 @@ public class MainUser extends javax.swing.JFrame {
 //            loggedInUser.setPhone(phone);
 //            loggedInUser.setAddress(address);
 //
-//            userDao.updateUser(loggedInUser);
+            userDao.updateUser(Config.loggedInUser);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

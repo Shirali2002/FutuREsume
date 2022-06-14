@@ -18,16 +18,16 @@ public class ProfilePanel extends javax.swing.JPanel {
      */
     public ProfilePanel() {
         initComponents();
-        fillUserComponents();
+//        fillUserComponents();
     }
 
-    public void fillUserComponents(){
-        txtAreaProfile.setText(Config.loggedInUser.getProfileDesc());
-    }
-
-    public void fillUser(User user){
-        user.setProfileDesc(txtAreaProfile.getText());
-    }
+//    public void fillUserComponents(){
+//        txtAreaProfile.setText(Config.loggedInUser.getProfileDesc());
+//    }
+//
+//    public void fillUser(User user){
+//        user.setProfileDesc(txtAreaProfile.getText());
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
