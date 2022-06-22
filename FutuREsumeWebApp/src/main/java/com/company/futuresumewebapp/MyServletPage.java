@@ -14,12 +14,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- *
  * @author Shireli
  */
 @WebServlet(name = "MyServletPage", urlPatterns = "/MyServletPage")
@@ -30,7 +30,8 @@ public class MyServletPage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        List<User> users = userDao.getAll();
+        int id = Integer.parseInt(request.getParameter("id"));
+        User u = userDao.getById(id);
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -39,9 +40,7 @@ public class MyServletPage extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("I got GET request");
-            for (User u : users) {
-                out.println(u);
-            }
+            out.println(u + "<br>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -49,23 +48,30 @@ public class MyServletPage extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = String.valueOf(request.getAttribute("name"));
-        String surname = String.valueOf(request.getAttribute("surname"));
+        try {
+            String requestStr = getAllDataFromRequest(request);
 
-        User u = new User(0, name, surname, null, null, null, null, null, null, null);
-        boolean users = userDao.addUser(u);
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>MyServletPage</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("I got POST request");
-            out.println("User inserted: " + u.getId() + "<br>");
-            out.println("</body>");
-            out.println("</html>");
+            System.out.println("request= " + requestStr);
+            String name = String.valueOf(request.getAttribute("name"));
+            String surname = String.valueOf(request.getAttribute("surname"));
+
+            User u = new User(0, name, surname, null, null, null, null, null, null, null);
+            boolean users = userDao.addUser(u);
+            response.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = response.getWriter()) {
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>MyServletPage</title>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("I got POST request");
+                out.println("User inserted: " + u.getId() + "<br>");
+                out.println("</body>");
+                out.println("</html>");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(MyServletPage.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -77,5 +83,35 @@ public class MyServletPage extends HttpServlet {
 
     }
 
-    pub
+    public static String getAllDataFromRequest(HttpServletRequest request) throws Exception {
+        String body = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        BufferedReader bufferedReader = null;
+
+        try {
+            InputStream inputStream = request.getInputStream();
+            if (inputStream != null) {
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                char[] charBuffer = new char[128];
+                int bytesRead = -1;
+                while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
+                    stringBuilder.append(charBuffer, 0, bytesRead);
+                }
+            } else {
+                stringBuilder.append("");
+            }
+        } catch (IOException ex) {
+            throw ex;
+        } finally {
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException ex) {
+                    throw ex;
+                }
+            }
+        }
+        body = stringBuilder.toString();
+        return body;
+    }
 }
